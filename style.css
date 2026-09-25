@@ -472,6 +472,10 @@ a:hover {
     color: var(--color-text-main);
 }
 
+.food-name-word {
+    display: inline-block;
+}
+
 .food-tag {
     display: inline-block;
     align-self: flex-start;
