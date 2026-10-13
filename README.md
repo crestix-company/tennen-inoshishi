@@ -8,6 +8,7 @@
 - 再生前の画像: `media/tennen-inoshishi-poster.jpg`（動画の冒頭フレーム）
 - 自動再生はせず、クリック／タップで再生します。初期表示では動画本体を先読みしません。
 - 元動画は再圧縮せず、縦横比を維持して表示します。音量・シーク・全画面は標準プレーヤーで操作できます。
+- 動画本体の配信URLは本リポジトリのGitHub Pagesです。Cloudflare Pages側ではRangeリクエストに全体応答（200）が返るため、途中再生に対応するGitHub Pages（206）を両サイト共通で使用しています。サイト自体の公開先は変更していません。
 - `index.html`、`style.css`、`script.js` と `media/` を同時に配信してください。ビルド処理は不要です。
 - `node scripts/verify-video.mjs` で動画設定・ファイル・内部参照を検証できます。
 

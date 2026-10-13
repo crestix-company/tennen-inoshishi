@@ -12,6 +12,7 @@ assert(!/\b(autoplay|loop)\b/.test(video), 'No automatic playback');
 assert(html.indexOf('id="hero"') < html.indexOf('id="movie"'));
 assert(html.indexOf('id="movie"') < html.indexOf('id="concept"'));
 assert(html.includes('type="video/mp4"'));
+assert(html.includes('<source src="https://crestix-company.github.io/tennen-inoshishi/media/tennen-inoshishi-introduction.mp4"'), 'Use the byte-range-capable video host');
 assert(html.includes('id="movie-start"'));
 assert(html.includes('id="movie-error"'));
 const ids = [...html.matchAll(/\bid="([^"]+)"/g)].map(match => match[1]);
