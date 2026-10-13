@@ -82,6 +82,7 @@
             <a href="#" class="header-logo">天然いのしし</a>
             <nav class="header-nav" id="nav">
                 <ul class="nav-list">
+                    <li><a href="#movie" class="nav-link">MOVIE</a></li>
                     <li><a href="#concept" class="nav-link">CONCEPT</a></li>
                     <li><a href="#food" class="nav-link">FOOD</a></li>
                     <li><a href="#seat" class="nav-link">SEAT</a></li>
@@ -112,10 +113,40 @@
                 <span class="title-vertical">天然いのしし</span>
             </h1>
             <p class="hero-copy">限られた場所でしか味わえない<br>特別な食体験へ</p>
+            <a class="hero-movie-link" href="#movie"><span aria-hidden="true">▶</span> 動画でお店を見る</a>
         </div>
         <div class="scroll-indicator">
             <span class="scroll-text">Scroll</span>
             <span class="scroll-line"></span>
+        </div>
+    </section>
+
+    <!-- MOVIE Section -->
+    <section class="movie section" id="movie" aria-labelledby="movie-title">
+        <div class="container movie-grid">
+            <div class="movie-copy">
+                <span class="section-label">MOVIE / 24 SECONDS</span>
+                <h2 id="movie-title">まだ知らない、<br>美味しさへ。</h2>
+                <p class="movie-lead">天然いのししの魅力を、<br>ひとつの動画に。</p>
+                <p class="movie-description">いのしし料理に、希少な馬肉「ふたえ桜」。<br class="pc-only">近江牛のコンビーフや砂肝のコンフィまで。<br class="pc-only">気になる一皿との出会いを、まずは映像で。</p>
+                <a href="#food" class="movie-menu-link">お料理をじっくり見る <span aria-hidden="true">↗</span></a>
+            </div>
+            <figure class="movie-figure">
+                <div class="movie-player">
+                    <video id="introduction-video" controls playsinline preload="none" width="360" height="640"
+                        poster="media/tennen-inoshishi-poster.jpg" aria-label="天然いのしし お店とお料理の紹介動画" aria-describedby="movie-caption">
+                        <source src="media/tennen-inoshishi-introduction.mp4" type="video/mp4">
+                        お使いのブラウザで動画を再生できない場合は、下のリンクからご覧ください。
+                    </video>
+                    <button type="button" class="movie-start" id="movie-start" aria-label="天然いのししの紹介動画を再生" aria-controls="introduction-video" hidden>
+                        <span class="movie-play-icon" aria-hidden="true">▶</span>
+                        <span class="movie-play-label">動画を再生 <small>0:24</small></span>
+                    </button>
+                </div>
+                <figcaption id="movie-caption">天然いのしし｜お店とお料理のご紹介</figcaption>
+                <p class="movie-error" id="movie-error" role="status" hidden>動画を読み込めませんでした。下のリンクからお試しください。</p>
+                <a class="movie-direct-link" href="media/tennen-inoshishi-introduction.mp4" target="_blank" rel="noopener">動画を別タブで開く</a>
+            </figure>
         </div>
     </section>
 
@@ -376,6 +407,7 @@
                     <div class="footer-nav">
                         <h3 class="footer-nav-title">MENU</h3>
                         <ul class="footer-nav-list">
+                            <li><a href="#movie">MOVIE</a></li>
                             <li><a href="#concept">CONCEPT</a></li>
                             <li><a href="#food">FOOD</a></li>
                             <li><a href="#seat">SEAT</a></li>

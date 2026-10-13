@@ -4,6 +4,38 @@
 
 document.addEventListener('DOMContentLoaded', function () {
 
+    // Load the introduction only when the visitor chooses to watch it.
+    // Native controls remain available when JavaScript is disabled.
+    const introductionVideo = document.getElementById('introduction-video');
+    const movieStart = document.getElementById('movie-start');
+    const movieError = document.getElementById('movie-error');
+    if (introductionVideo && movieStart && movieError) {
+        introductionVideo.controls = false;
+        movieStart.hidden = false;
+
+        const showVideoError = () => {
+            movieError.hidden = false;
+            movieStart.hidden = false;
+            introductionVideo.controls = true;
+        };
+        movieStart.addEventListener('click', async () => {
+            movieError.hidden = true;
+            movieStart.hidden = true;
+            introductionVideo.controls = true;
+            try {
+                await introductionVideo.play();
+                introductionVideo.focus();
+            } catch {
+                showVideoError();
+            }
+        });
+        introductionVideo.addEventListener('error', showVideoError);
+        introductionVideo.querySelector('source')?.addEventListener('error', showVideoError);
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden) introductionVideo.pause();
+        });
+    }
+
     // ====================================
     // Hamburger Menu Toggle
     // ====================================
@@ -132,10 +164,10 @@ document.addEventListener('DOMContentLoaded', function () {
     const scrollIndicator = document.querySelector('.scroll-indicator');
     if (scrollIndicator) {
         scrollIndicator.addEventListener('click', function () {
-            const conceptSection = document.getElementById('concept');
-            if (conceptSection) {
+            const introductionSection = document.getElementById('movie');
+            if (introductionSection) {
                 const headerHeight = header ? header.offsetHeight : 0;
-                const targetPosition = conceptSection.getBoundingClientRect().top + window.scrollY - headerHeight;
+                const targetPosition = introductionSection.getBoundingClientRect().top + window.scrollY - headerHeight;
 
                 window.scrollTo({
                     top: targetPosition,
