@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import { readFile, stat } from 'node:fs/promises';
 import { resolve, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { runInNewContext } from 'node:vm';
 
 const root = fileURLToPath(new URL('../', import.meta.url));
 const html = await readFile(resolve(root, 'index.html'), 'utf8');
@@ -37,4 +38,31 @@ assert(media.includes(Buffer.from('mp4a')), 'AAC audio');
 const css = await readFile(resolve(root, 'style.css'), 'utf8');
 assert(css.includes('object-fit: contain;'));
 assert(css.includes('.movie-start[hidden]'));
+const script = await readFile(resolve(root, 'script.js'), 'utf8');
+const videoSetup = script.slice(script.indexOf('    // Load the introduction'), script.indexOf('    // ====================================\n    // Hamburger'));
+assert(videoSetup.includes('movieStart.addEventListener'), 'Video setup found for behavior tests');
+for (const failure of [null, 'AbortError', 'NotSupportedError']) {
+    const handlers = new Map();
+    const videoHandlers = new Map();
+    const start = { hidden: true, addEventListener: (name, handler) => handlers.set(name, handler) };
+    const error = { hidden: true };
+    const player = {
+        controls: true,
+        play: async () => { if (failure) throw { name: failure }; },
+        pause() {}, focus() {},
+        addEventListener: (name, handler) => videoHandlers.set(name, handler),
+        querySelector: () => ({ addEventListener() {} })
+    };
+    const elements = { 'introduction-video': player, 'movie-start': start, 'movie-error': error };
+    runInNewContext(videoSetup, { document: { getElementById: id => elements[id], addEventListener() {} } });
+    assert.equal(start.hidden, false);
+    assert.equal(player.controls, false);
+    await handlers.get('click')();
+    assert.equal(player.controls, true);
+    assert.equal(error.hidden, failure !== 'NotSupportedError', `${failure}: expected loading message state`);
+    assert.equal(start.hidden, failure !== 'NotSupportedError');
+    videoHandlers.get('play')();
+    assert.equal(error.hidden, true, 'Successful playback clears earlier error');
+}
 console.log(`PASS: video placement, manual inline playback, H.264/AAC, ${checked} local references and responsive player styles.`);
+console.log('PASS: playback success, intentional pause cancellation, load failure and recovery.');

@@ -25,9 +25,15 @@ document.addEventListener('DOMContentLoaded', function () {
             try {
                 await introductionVideo.play();
                 introductionVideo.focus();
-            } catch {
-                showVideoError();
+            } catch (error) {
+                // A quick pause (or switching tabs) can cancel a pending play request.
+                // It is not a loading failure; keep the native controls available.
+                if (error.name !== 'AbortError') showVideoError();
             }
+        });
+        introductionVideo.addEventListener('play', () => {
+            movieStart.hidden = true;
+            movieError.hidden = true;
         });
         introductionVideo.addEventListener('error', showVideoError);
         introductionVideo.querySelector('source')?.addEventListener('error', showVideoError);
